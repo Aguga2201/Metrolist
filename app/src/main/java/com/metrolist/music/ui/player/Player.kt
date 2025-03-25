@@ -668,20 +668,11 @@ fun BottomSheetPlayer(
                         .clip(RoundedCornerShape(24.dp))
                         .background(textButtonColor)
                         .clickable {
-                            val intent =
-                                Intent().apply {
-                                    action = Intent.ACTION_SEND
-                                    type = "text/plain"
-                                    putExtra(
-                                        Intent.EXTRA_TEXT,
-                                        "https://music.youtube.com/watch?v=${mediaMetadata.id}"
-                                    )
-                                }
-                            context.startActivity(Intent.createChooser(intent, null))
+                            playerConnection.toggleLike()
                         },
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.share),
+                        painter = painterResource(if (currentSong?.song?.liked == true) R.drawable.favorite else R.drawable.favorite_border),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(iconButtonColor),
                         modifier =
@@ -844,21 +835,20 @@ fun BottomSheetPlayer(
                     .fillMaxWidth()
                     .padding(horizontal = PlayerHorizontalPadding),
             ) {
+                val shuffleModeEnabled by playerConnection.shuffleModeEnabled.collectAsState()
+
                 Box(modifier = Modifier.weight(1f)) {
                     ResizableIconButton(
-                        icon = when (repeatMode) {
-                            Player.REPEAT_MODE_OFF, Player.REPEAT_MODE_ALL -> R.drawable.repeat
-                            Player.REPEAT_MODE_ONE -> R.drawable.repeat_one
-                            else -> throw IllegalStateException()
-                        },
+                        icon = R.drawable.shuffle,
                         color = TextBackgroundColor,
-                        modifier = Modifier
+                        modifier =
+                        Modifier
                             .size(32.dp)
                             .padding(4.dp)
                             .align(Alignment.Center)
-                            .alpha(if (repeatMode == Player.REPEAT_MODE_OFF) 0.5f else 1f),
+                            .alpha(if (shuffleModeEnabled) 1f else 0.5f),
                         onClick = {
-                            playerConnection.player.toggleRepeatMode()
+                            playerConnection.player.shuffleModeEnabled = !playerConnection.player.shuffleModeEnabled
                         },
                     )
                 }
@@ -932,14 +922,20 @@ fun BottomSheetPlayer(
 
                 Box(modifier = Modifier.weight(1f)) {
                     ResizableIconButton(
-                        icon = if (currentSong?.song?.liked == true) R.drawable.favorite else R.drawable.favorite_border,
-                        color = if (currentSong?.song?.liked == true) MaterialTheme.colorScheme.error else TextBackgroundColor,
-                        modifier =
-                        Modifier
+                        icon = when (repeatMode) {
+                            Player.REPEAT_MODE_OFF, Player.REPEAT_MODE_ALL -> R.drawable.repeat
+                            Player.REPEAT_MODE_ONE -> R.drawable.repeat_one
+                            else -> throw IllegalStateException()
+                        },
+                        color = TextBackgroundColor,
+                        modifier = Modifier
                             .size(32.dp)
                             .padding(4.dp)
-                            .align(Alignment.Center),
-                        onClick = playerConnection::toggleLike,
+                            .align(Alignment.Center)
+                            .alpha(if (repeatMode == Player.REPEAT_MODE_OFF) 0.5f else 1f),
+                        onClick = {
+                            playerConnection.player.toggleRepeatMode()
+                        },
                     )
                 }
             }
