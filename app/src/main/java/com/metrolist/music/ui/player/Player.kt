@@ -228,18 +228,15 @@ fun BottomSheetPlayer(
             withContext(Dispatchers.IO) {
                 val result =
                     (
-                            ImageLoader(context)
-                                .execute(
-                                    ImageRequest
-                                        .Builder(context)
-                                        .data(mediaMetadata?.thumbnailUrl)
-                                        .allowHardware(false)
-                                        .build(),
-                                ).drawable as? BitmapDrawable
-                            )?.bitmap?.extractGradientColors(
-                            darkTheme =
-                            darkTheme == DarkMode.ON || (darkTheme == DarkMode.AUTO && isSystemInDarkTheme),
-                        )
+                        ImageLoader(context)
+                            .execute(
+                                ImageRequest
+                                    .Builder(context)
+                                    .data(mediaMetadata?.thumbnailUrl)
+                                    .allowHardware(false)
+                                   .build(),
+                            ).drawable as? BitmapDrawable
+                        )?.bitmap?.extractGradientColors()
 
                 result?.let {
                     gradientColors = it
@@ -728,11 +725,9 @@ fun BottomSheetPlayer(
                             sliderPosition = null
                         },
                         colors = SliderDefaults.colors(
-                            activeTrackColor = TextBackgroundColor,
-                            inactiveTrackColor = Color.Gray,
-                            activeTickColor = TextBackgroundColor,
-                            inactiveTickColor = Color.Gray,
-                            thumbColor = TextBackgroundColor
+                            activeTrackColor = textButtonColor,
+                            activeTickColor = textButtonColor,
+                            thumbColor = textButtonColor
                         ),
                         modifier = Modifier.padding(horizontal = PlayerHorizontalPadding),
                     )
@@ -753,11 +748,9 @@ fun BottomSheetPlayer(
                             sliderPosition = null
                         },
                         colors = SliderDefaults.colors(
-                            activeTrackColor = TextBackgroundColor,
-                            inactiveTrackColor = Color.Gray,
-                            activeTickColor = TextBackgroundColor,
-                            inactiveTickColor = Color.Gray,
-                            thumbColor = TextBackgroundColor
+                            activeTrackColor = textButtonColor,
+                            activeTickColor = textButtonColor,
+                            thumbColor = textButtonColor
                         ),
                         modifier = Modifier.padding(horizontal = PlayerHorizontalPadding),
                         squigglesSpec =
@@ -787,10 +780,8 @@ fun BottomSheetPlayer(
                             PlayerSliderTrack(
                                 sliderState = sliderState,
                                 colors = SliderDefaults.colors(
-                                    activeTrackColor = TextBackgroundColor,
-                                    inactiveTrackColor = Color.Gray,
-                                    activeTickColor = TextBackgroundColor,
-                                    inactiveTickColor = Color.Gray
+                                    activeTrackColor = textButtonColor,
+                                    activeTickColor = textButtonColor,
                                 )
                             )
                         },

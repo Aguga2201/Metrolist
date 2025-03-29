@@ -71,6 +71,9 @@ android {
         includeInApk = false
         includeInBundle = false
     }
+    androidResources {
+        generateLocaleConfig = true
+    }
 }
 
 ksp {
@@ -132,4 +135,5 @@ dependencies {
     implementation(libs.timber)
 
     implementation(libs.ktor.serialization.json)
+
 }
