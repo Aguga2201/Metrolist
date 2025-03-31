@@ -98,7 +98,10 @@
     <string name="start_radio">Start radio</string>
     <string name="play">Play</string>
     <string name="play_next">Play next</string>
+    <string name="added_to_play_next">Added to play next</string>
+
     <string name="add_to_queue">Add to queue</string>
+    <string name="added_to_queue">Added to the queue</string>
     <string name="add_to_library">Add to library</string>
     <string name="remove_from_library">Remove from library</string>
     <string name="remove_from_playlist">Remove from playlist</string>
@@ -365,6 +368,10 @@
     <string name="max_song_cache_size">Max song cache size</string>
     <string name="clear_song_cache">Clear song cache</string>
     <string name="size_used">%s used</string>
+    <string name="clear_song_cache_dialog">  Are you sure you want to clear all cached songs?</string>
+
+    <string name="clear_downloads_dialog">  Are you sure you want to clear all downloads?</string>
+
 
     <string name="privacy">Privacy</string>
     <string name="listen_history">Listen History</string>
